@@ -1,0 +1,85 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title></title>
+    <meta charset="utf-8" />
+</head>
+<body>
+    <script>
+        /*
+         归并排序
+         说明：容易看懂的排序时间复杂度基本上都是O(n^2),难看懂的基本都是O(nlogn),
+               归并排序比较复杂。
+               50   20   40   30
+                \   /     \   /
+                20 50     30 40
+                  \        /
+                 20 30 40 50
+        归并排序中中两件事情要做：
+            第一： “分”,  就是将数组尽可能的分，一直分到原子级别。
+            第二： “并”,  将原子级别的数两两合并排序，最后产生结果。
+        */
+        // 数组划分
+        // @param 待排序数组
+        // @param 临时存放数组
+        // @param 序列段开始位置
+        // @param 序列段结束位置
+        function mergeSort(array, temparr, left, right) {
+            if (left < right) {
+                //取分割位置
+                var middle = parseInt((left + right) / 2);
+                //递归划分数组左序列
+                mergeSort(array, temparr, left, middle);
+                //递归划分数组右序列
+                mergeSort(array, temparr, middle + 1, right);
+                // 数组合并操作
+                merge(array, temparr, left, middle + 1, right);
+            }
+        }
+        // 数组的两两合并操作
+        // @param 待排序数组
+        // @param 临时数组
+        // @param 第一个区间的开始位置
+        // @param 第二个区间的开始位置
+        // @param 第二个区间的结束位置
+        function merge(array, temparr, left, middle, right) {
+            //左指针尾
+            var leftEnd = middle - 1;
+            //右指针头
+            var rightStart = middle;
+            //临时数组的下标
+            var tempindex = left;
+            //数组合并后的length长度
+            var templength = right - left + 1;
+            //先循环两个区间都没有结束的情况
+            while ((left <= leftEnd) && (rightStart <= right)) {
+                //如果发现有序列大，则将这个数放入临时数组
+                if (array[left] < array[rightStart]) {
+                    temparr[tempindex++] = array[left++];
+                } else {
+                    temparr[tempindex++] = array[rightStart++];
+                }
+            }
+            //判断左序列是否结束
+            while (left <= leftEnd) {
+                temparr[tempindex++] = array[left++];
+            }
+            //判断右序列是否结束
+            while (rightStart <= right) {
+                temparr[tempindex++] = array[rightStart++];
+            }
+            //交换数据
+            for (var i = 0; i < templength; i++) {
+                array[right] = temparr[right];
+                right--;
+            }
+        }
+
+        // 调用
+        var array = [3, 2, 1, 8, 9, 0];
+        var temparr = [];
+        mergeSort(array, temparr, 0, array.length - 1);
+    </script>
+</body>
+</html>

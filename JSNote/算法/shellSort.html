@@ -1,0 +1,83 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title></title>
+    <meta charset="utf-8" />
+</head>
+<body>
+    <div style=""></div>
+    <script>
+        // 直接插入排序
+        // 应用斗地主 排序扑克
+        // @param list
+        function insertSort(list) {
+            // 无序序列
+            for (var i = 0; i < list.length; i++) {
+                var temp = list[i];
+                var j;
+                //有序序列
+                for (j = i - 1; j >= 0 && temp < list[j]; j--) {
+                    list[j + 1] = list[j];
+                }
+                list[j + 1] = temp;
+            }
+        }
+        var list = [20, 60, 10, 40, 30, 70];
+        insertSort(list);
+        /*
+         直接插入排序分析
+         元素组
+         20 60 10 40 30 70
+         第一次 从无序数组块 提取20作为 有序组块 20
+         第二次 从无序数组块 提取20作为 有序组块 20 60
+         第三次 10比有序数组的值都小，因此20 60位置后移，将10插入到他们前面
+         按照这个规律全部插入完毕
+        */
+    </script>
+    <script>
+        // 希尔排序
+        function shellSort(list) {
+            var step = list.length / 2;
+            while (step >= 1) {
+                for (var i = step; i < list.length; i++) {
+                    var temp = list[i];
+                    var j;
+                    for (j = i - step; j >= 0 && temp < list[j]; j = j - step) {
+                        list[j + step] = list[j];
+                    }
+                    list[j + step] = temp;
+                }
+                step = step / 2;
+            }
+        }
+        //调用同直接排序
+        /*
+         希尔算法分析
+         改进直接插入排序
+         新增加 缩小增量排序法 思想
+         增量不是乱取，有规律
+         数组 40 20 80 50 .30 60
+         第一次 增量取法为 d = count / 2
+         第二次 增量取法为 d = (count/ 2) / 2
+         最后一次到        d = 1
+
+         d = 3   40 20 80 50 30 60
+         d = 2   40 20 60 50 30 80
+         d = 1   30 20 40 50 60 80
+         最后    20 30 40 50 60 80
+
+         d = 3      40 与 50比，50大 不交换
+                    20 与 30比，30大 不交换
+                    80 与 60比，60小   交换
+
+         d = 2      40 与 60比，60大 不交换，
+                    60 与 30比  30小   交换，再次比较，交换后的30又比前面的40小，又要将40和30交换
+                    20 与 50比，50大   交换，继续将50跟80比，不交换
+         d = 1      这时就是前面讲的插入排序了，不过此时的序列已经差不多有序了
+                    所以给插入排序带来了很大的性能提高
+        */
+        // 希尔排序 比 直接插入排序 快70倍左右
+    </script>
+</body>
+</html>
